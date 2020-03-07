@@ -1,0 +1,3 @@
+package usescases
+
+func Handler() {}
