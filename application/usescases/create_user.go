@@ -1,6 +1,7 @@
 package usescases
 
 import (
+	"fmt"
 	"github.com/fmcarrero/bookstore_users-api/application/commands"
 	"github.com/fmcarrero/bookstore_users-api/application/factory"
 	"github.com/fmcarrero/bookstore_users-api/domain/model"
@@ -16,6 +17,7 @@ type UseCaseUserCreate struct {
 }
 
 func (createsUseCase *UseCaseUserCreate) Handler(userCommand commands.UserCommand) (model.User, error) {
+	fmt.Println(userCommand)
 	user, err := factory.CreateUser(userCommand)
 	if err != nil {
 		return model.User{}, err

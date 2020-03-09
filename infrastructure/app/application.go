@@ -30,15 +30,47 @@ func StartApplication() {
 	_ = router.Run(":8080")
 }
 func createHandler() controllers.RedirectUserHandler {
-	return newHandler(newCreatesUseCase(getUsersRepository()))
+	userRepository := getUsersRepository()
+	return newHandler(newCreatesUseCase(userRepository), newGetUserUseCase(userRepository),
+		newUpdateUserUseCase(userRepository), newDeleteUserUseCase(userRepository),
+		newFindUsersByStatusUseCase(userRepository))
 }
 func newCreatesUseCase(repository ports.UsersRepository) usescases.CreatesUseCase {
 	return &usescases.UseCaseUserCreate{
 		UserRepository: repository,
 	}
 }
-func newHandler(createUser usescases.CreatesUseCase) controllers.RedirectUserHandler {
-	return &controllers.Handler{CreatesUseCase: createUser}
+
+func newGetUserUseCase(repository ports.UsersRepository) usescases.GetUserUseCase {
+	return &usescases.UseCaseGetUser{
+		UserRepository: repository,
+	}
+}
+
+func newUpdateUserUseCase(repository ports.UsersRepository) usescases.UpdateUserUseCase {
+	return &usescases.UseCaseUpdateUser{
+		UserRepository: repository,
+	}
+}
+
+func newDeleteUserUseCase(usersRepository ports.UsersRepository) usescases.DeleteUserUseCase {
+	return &usescases.UseCaseDeleteUser{
+		UserRepository: usersRepository,
+	}
+}
+
+func newFindUsersByStatusUseCase(usersRepository ports.UsersRepository) usescases.FindUsersByStatusUseCase {
+	return &usescases.UseCaseFindUserByStatus{
+		UserRepository: usersRepository,
+	}
+}
+
+func newHandler(createUser usescases.CreatesUseCase, getUserUseCase usescases.GetUserUseCase, updateUserUseCase usescases.UpdateUserUseCase,
+	deleteUserUseCase usescases.DeleteUserUseCase, useCaseFindUserByStatus usescases.FindUsersByStatusUseCase) controllers.RedirectUserHandler {
+	return &controllers.Handler{CreatesUseCase: createUser, GetUserUseCase: getUserUseCase, UseCaseUpdateUser: updateUserUseCase,
+		UseCaseDeleteUser:       deleteUserUseCase,
+		UseCaseFindUserByStatus: useCaseFindUserByStatus,
+	}
 }
 func getUsersRepository() ports.UsersRepository {
 	return &repository.UserMysqlRepository{

@@ -8,6 +8,9 @@ func mapUrls(handler controllers.RedirectUserHandler) {
 
 	router.GET("/ping", controllers.Ping)
 
-	router.POST("/users", handler.CreateUser)
-	router.GET("/users/:user_id", handler.GetUser)
+	router.POST("/users", handler.Create)
+	router.GET("/users/:user_id", handler.Get)
+	router.PUT("/users/:user_id", handler.Update)
+	router.DELETE("/users/:user_id", handler.Delete)
+	router.GET("/internal/users/search", handler.FindByStatus)
 }

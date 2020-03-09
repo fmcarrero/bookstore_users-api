@@ -1,8 +1,13 @@
 package model
 
 import (
+	"github.com/fmcarrero/bookstore_users-api/domain/utils/crypto_utils"
 	"github.com/fmcarrero/bookstore_users-api/domain/utils/date_utils"
 	"github.com/fmcarrero/bookstore_users-api/domain/validators"
+)
+
+const (
+	StatusActive = "active"
 )
 
 type User struct {
@@ -11,9 +16,14 @@ type User struct {
 	LastName    string
 	Email       string
 	DateCreated string
+	Status      string
+	Password    string
 }
 
-func (user *User) CreateUser(firstName string, lastName string, email string) (User, error) {
+func (user *User) CreateUser(firstName string, lastName string, email string, password string) (User, error) {
+	if err := validators.ValidateRequired(password, "Password should have some value"); err != nil {
+		return User{}, err
+	}
 	if err := validators.ValidateRequired(firstName, "FirstName should have some value"); err != nil {
 		return User{}, err
 	}
@@ -26,10 +36,13 @@ func (user *User) CreateUser(firstName string, lastName string, email string) (U
 	if err := validators.ValidateEmail(email, "invalid email"); err != nil {
 		return User{}, err
 	}
+
 	return User{
 		FirstName:   firstName,
 		LastName:    lastName,
 		Email:       email,
 		DateCreated: date_utils.GetNowString(),
+		Status:      StatusActive,
+		Password:    crypto_utils.GetMd5(password),
 	}, nil
 }
