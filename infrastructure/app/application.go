@@ -37,7 +37,7 @@ func createHandler() controllers.RedirectUserHandler {
 		newUpdateUserUseCase(userRepository), newDeleteUserUseCase(userRepository),
 		newFindUsersByStatusUseCase(userRepository))
 }
-func newCreatesUseCase(repository ports.UsersRepository) usescases.CreatesUseCase {
+func newCreatesUseCase(repository ports.UsersRepository) usescases.CreatesUserPort {
 	return &usescases.UseCaseUserCreate{
 		UserRepository: repository,
 	}
@@ -67,7 +67,7 @@ func newFindUsersByStatusUseCase(usersRepository ports.UsersRepository) usescase
 	}
 }
 
-func newHandler(createUser usescases.CreatesUseCase, getUserUseCase usescases.GetUserUseCase, updateUserUseCase usescases.UpdateUserUseCase,
+func newHandler(createUser usescases.CreatesUserPort, getUserUseCase usescases.GetUserUseCase, updateUserUseCase usescases.UpdateUserUseCase,
 	deleteUserUseCase usescases.DeleteUserUseCase, useCaseFindUserByStatus usescases.FindUsersByStatusUseCase) controllers.RedirectUserHandler {
 	return &controllers.Handler{CreatesUseCase: createUser, GetUserUseCase: getUserUseCase, UseCaseUpdateUser: updateUserUseCase,
 		UseCaseDeleteUser:       deleteUserUseCase,

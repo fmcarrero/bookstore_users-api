@@ -8,7 +8,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/domain/ports"
 )
 
-type CreatesUseCase interface {
+type CreatesUserPort interface {
 	Handler(userCommand commands.UserCommand) (model.User, error)
 }
 

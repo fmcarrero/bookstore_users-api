@@ -19,7 +19,7 @@ type RedirectUserHandler interface {
 }
 
 type Handler struct {
-	CreatesUseCase          usescases.CreatesUseCase
+	CreatesUseCase          usescases.CreatesUserPort
 	GetUserUseCase          usescases.GetUserUseCase
 	UseCaseUpdateUser       usescases.UpdateUserUseCase
 	UseCaseDeleteUser       usescases.DeleteUserUseCase
