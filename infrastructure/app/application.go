@@ -7,6 +7,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/controllers"
+	"github.com/fmcarrero/bookstore_users-api/infrastructure/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
@@ -27,6 +28,7 @@ var (
 func StartApplication() {
 	var handler = createHandler()
 	mapUrls(handler)
+	logger.Info("about to start the application")
 	_ = router.Run(":8080")
 }
 func createHandler() controllers.RedirectUserHandler {
