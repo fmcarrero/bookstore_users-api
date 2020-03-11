@@ -14,3 +14,7 @@ func mapUrls(handler controllers.RedirectUserHandler) {
 	router.DELETE("/users/:user_id", handler.Delete)
 	router.GET("/internal/users/search", handler.FindByStatus)
 }
+
+func mapUrlLogin(handler controllers.LoginUserHandler) {
+	router.POST("/users/login", handler.Login)
+}

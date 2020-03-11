@@ -26,13 +26,20 @@ var (
 )
 
 func StartApplication() {
-	var handler = createHandler()
+	userRepository := getUsersRepository()
+	var handler = createHandler(userRepository)
+
 	mapUrls(handler)
+	mapUrlLogin(createLoginHandler(userRepository))
 	logger.Info("about to start the application")
 	_ = router.Run(":8080")
 }
-func createHandler() controllers.RedirectUserHandler {
-	userRepository := getUsersRepository()
+func createLoginHandler(userRepository ports.UsersRepository) controllers.LoginUserHandler {
+	useCaseLogin := &usescases.UseCaseLogin{UserRepository: userRepository}
+	return &controllers.HandlerLogin{LoginUseCase: useCaseLogin}
+}
+func createHandler(userRepository ports.UsersRepository) controllers.RedirectUserHandler {
+
 	return newHandler(newCreatesUseCase(userRepository), newGetUserUseCase(userRepository),
 		newUpdateUserUseCase(userRepository), newDeleteUserUseCase(userRepository),
 		newFindUsersByStatusUseCase(userRepository))
@@ -90,7 +97,7 @@ func getDatabaseInstance() *gorm.DB {
 	db, err := gorm.Open("mysql", dataSource)
 	if err != nil {
 		fmt.Println(err)
-		db.Close()
+		_ = db.Close()
 		panic("database not working")
 	}
 	db.SingularTable(true)

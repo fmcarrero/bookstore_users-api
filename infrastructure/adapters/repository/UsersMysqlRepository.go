@@ -70,3 +70,12 @@ func (userMysqlRepository *UserMysqlRepository) Delete(userId int64) error {
 	}
 	return nil
 }
+
+func (userMysqlRepository *UserMysqlRepository) Login(user model.User) (*model.User, error) {
+	var userDb models.UserDb
+	if userMysqlRepository.Db.Where(&models.UserDb{Email: user.Email, Password: user.Password, Status: model.StatusActive}).First(&userDb).Error != nil {
+		return nil, errors.New(fmt.Sprintf("no users matching "))
+	}
+	userFound := users_mapper.UserDbToUser(userDb)
+	return &userFound, nil
+}
