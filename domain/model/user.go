@@ -1,9 +1,9 @@
 package model
 
 import (
-	"github.com/fmcarrero/bookstore_users-api/domain/utils/crypto_utils"
-	"github.com/fmcarrero/bookstore_users-api/domain/utils/date_utils"
 	"github.com/fmcarrero/bookstore_users-api/domain/validators"
+	"github.com/fmcarrero/bookstore_utils-go/crypto"
+	"github.com/fmcarrero/bookstore_utils-go/date"
 )
 
 const (
@@ -41,9 +41,9 @@ func (user *User) CreateUser(firstName string, lastName string, email string, pa
 		FirstName:   firstName,
 		LastName:    lastName,
 		Email:       email,
-		DateCreated: date_utils.GetNowString(),
+		DateCreated: date.GetNowString(),
 		Status:      StatusActive,
-		Password:    crypto_utils.GetMd5(password),
+		Password:    crypto.GetMd5(password),
 	}, nil
 }
 func (user *User) CreateUserLogin(email string, password string) (User, error) {
@@ -58,6 +58,6 @@ func (user *User) CreateUserLogin(email string, password string) (User, error) {
 	}
 	return User{
 		Email:    email,
-		Password: crypto_utils.GetMd5(password),
+		Password: crypto.GetMd5(password),
 	}, nil
 }

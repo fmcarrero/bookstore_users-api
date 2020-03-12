@@ -7,7 +7,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/controllers"
-	"github.com/fmcarrero/bookstore_users-api/infrastructure/logger"
+	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"

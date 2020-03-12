@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"github.com/fmcarrero/bookstore_users-api/domain/model"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
-	"github.com/fmcarrero/bookstore_users-api/infrastructure/logger"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/mappers/users_mapper"
+	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )

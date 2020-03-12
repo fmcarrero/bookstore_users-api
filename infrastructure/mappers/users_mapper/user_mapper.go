@@ -2,14 +2,14 @@ package users_mapper
 
 import (
 	"github.com/fmcarrero/bookstore_users-api/domain/model"
-	"github.com/fmcarrero/bookstore_users-api/domain/utils/date_utils"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
+	"github.com/fmcarrero/bookstore_utils-go/date"
 	"time"
 )
 
 func UserToUserDb(user model.User) models.UserDb {
 
-	now, _ := time.Parse(date_utils.ApiDbLayout, date_utils.GetNowDBFormatNow())
+	now, _ := time.Parse(date.ApiDbLayout, date.GetNowDBFormatNow())
 	var userDb models.UserDb
 	userDb.FirstName = user.FirstName
 	userDb.LastName = user.LastName
@@ -26,7 +26,7 @@ func UserDbToUser(userDb models.UserDb) model.User {
 	user.FirstName = userDb.FirstName
 	user.LastName = userDb.LastName
 	user.Email = userDb.Email
-	user.DateCreated = date_utils.GetDateString(userDb.DateCreated)
+	user.DateCreated = date.GetDateString(userDb.DateCreated)
 	user.Status = userDb.Status
 	return user
 }
