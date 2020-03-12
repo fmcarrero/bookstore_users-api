@@ -2,6 +2,7 @@ package marshallers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/fmcarrero/bookstore_users-api/domain/model"
 )
 
@@ -27,7 +28,9 @@ func Marshall(isPublic bool, user model.User) interface{} {
 			Status:      user.Status,
 		}
 	}
-	userJson, _ := json.Marshal(user)
+	userJson, errUn := json.Marshal(user)
+	fmt.Println(errUn)
+	fmt.Println(user)
 	var privateUser PrivateUser
 	_ = json.Unmarshal(userJson, &privateUser)
 	return privateUser

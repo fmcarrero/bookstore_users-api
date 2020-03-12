@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"github.com/fmcarrero/bookstore_oauth-go/oauth"
 	"github.com/fmcarrero/bookstore_users-api/application/commands"
 	"github.com/fmcarrero/bookstore_users-api/application/usescases"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/marshallers"
@@ -44,6 +45,11 @@ func (h *Handler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, marshallers.Marshall(isPublic, result))
 }
 func (h *Handler) Get(c *gin.Context) {
+	if err := oauth.AuthenticateRequest(c.Request); err != nil {
+		c.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
 		restErr := errors.NewBadRequest("user_id should be valid")
@@ -56,8 +62,13 @@ func (h *Handler) Get(c *gin.Context) {
 		c.JSON(restErr.Status, restErr)
 		return
 	}
-	isPublic := c.GetHeader("X-Public") == "true"
-	c.JSON(http.StatusOK, marshallers.Marshall(isPublic, user))
+
+	if oauth.GetCallerId(c.Request) == user.Id {
+		c.JSON(http.StatusOK, marshallers.Marshall(false, user))
+		return
+	}
+	c.JSON(http.StatusOK, marshallers.Marshall(oauth.IsPublic(c.Request), user))
+
 }
 
 func (h *Handler) Update(c *gin.Context) {
