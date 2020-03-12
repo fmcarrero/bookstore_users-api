@@ -5,7 +5,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/application/commands"
 	"github.com/fmcarrero/bookstore_users-api/application/usescases"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/marshallers"
-	"github.com/fmcarrero/bookstore_users-api/infrastructure/utils/errors"
+	"github.com/fmcarrero/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -31,14 +31,14 @@ func (h *Handler) Create(c *gin.Context) {
 
 	var userCommand commands.UserCommand
 	if err := c.ShouldBindJSON(&userCommand); err != nil {
-		restErr := errors.NewBadRequest("invalid json")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("invalid json")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	result, createUserErr := h.CreatesUseCase.Handler(userCommand)
 	if createUserErr != nil {
-		restErr := errors.NewBadRequest(createUserErr.Error())
-		c.JSON(http.StatusBadRequest, restErr)
+		restErr := rest_errors.NewBadRequestError(createUserErr.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	isPublic := c.GetHeader("X-Public") == "true"
@@ -52,14 +52,14 @@ func (h *Handler) Get(c *gin.Context) {
 
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
-		restErr := errors.NewBadRequest("user_id should be valid")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("user_id should be valid")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	user, errGet := h.GetUserUseCase.Handler(userId)
 	if errGet != nil {
-		restErr := errors.NewBadRequest(errGet.Error())
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError(errGet.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 
@@ -74,20 +74,20 @@ func (h *Handler) Get(c *gin.Context) {
 func (h *Handler) Update(c *gin.Context) {
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
-		restErr := errors.NewBadRequest("user_id should be valid")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("user_id should be valid")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	var userCommand commands.UserCommand
 	if err := c.ShouldBindJSON(&userCommand); err != nil {
-		restErr := errors.NewBadRequest("invalid json")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("invalid json")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	user, updateErr := h.UseCaseUpdateUser.Handler(userId, userCommand)
 	if updateErr != nil {
-		restErr := errors.NewBadRequest(updateErr.Error())
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError(updateErr.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 
@@ -97,14 +97,14 @@ func (h *Handler) Update(c *gin.Context) {
 func (h *Handler) Delete(c *gin.Context) {
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
-		restErr := errors.NewBadRequest("user_id should be valid")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("user_id should be valid")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	errDelete := h.UseCaseDeleteUser.Handler(userId)
 	if errDelete != nil {
-		restErr := errors.NewBadRequest(errDelete.Error())
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError(errDelete.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	c.Status(http.StatusNoContent)
@@ -114,8 +114,8 @@ func (h *Handler) FindByStatus(c *gin.Context) {
 	status := c.Query("status")
 	users, err := h.UseCaseFindUserByStatus.Handler(status)
 	if err != nil {
-		restErr := errors.NewBadRequest(err.Error())
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError(err.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	isPublic := c.GetHeader("X-Public") == "true"

@@ -3,7 +3,7 @@ package controllers
 import (
 	"github.com/fmcarrero/bookstore_users-api/application/commands"
 	"github.com/fmcarrero/bookstore_users-api/application/usescases"
-	"github.com/fmcarrero/bookstore_users-api/infrastructure/utils/errors"
+	"github.com/fmcarrero/bookstore_utils-go/rest_errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -18,14 +18,14 @@ type HandlerLogin struct {
 func (h *HandlerLogin) Login(c *gin.Context) {
 	var loginCommand commands.LoginCommand
 	if err := c.ShouldBindJSON(&loginCommand); err != nil {
-		restErr := errors.NewBadRequest("invalid json body")
-		c.JSON(restErr.Status, restErr)
+		restErr := rest_errors.NewBadRequestError("invalid json body")
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 	result, loginErr := h.LoginUseCase.Handler(loginCommand)
 	if loginErr != nil {
-		restErr := errors.NewBadRequest(loginErr.Error())
-		c.JSON(http.StatusNotFound, restErr)
+		restErr := rest_errors.NewBadRequestError(loginErr.Error())
+		c.JSON(restErr.Status(), restErr)
 		return
 	}
 
