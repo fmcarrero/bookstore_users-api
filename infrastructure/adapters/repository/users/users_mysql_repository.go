@@ -33,7 +33,6 @@ func (userMysqlRepository *UserMysqlRepository) Get(userId int64) (model.User, e
 	if userMysqlRepository.Db.First(&userDb, userId).Error != nil {
 		return model.User{}, errors.New(fmt.Sprintf("user not found %v", userId))
 	}
-	fmt.Println(userDb)
 	user := users_mapper.UserDbToUser(userDb)
 	return user, nil
 }
