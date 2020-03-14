@@ -1,6 +1,7 @@
 package model
 
 import (
+	"github.com/fmcarrero/bookstore_users-api/domain/exceptions"
 	"github.com/fmcarrero/bookstore_users-api/domain/validators"
 	"github.com/fmcarrero/bookstore_utils-go/crypto"
 	"github.com/fmcarrero/bookstore_utils-go/date"
@@ -22,7 +23,7 @@ type User struct {
 
 func (user *User) CreateUser(firstName string, lastName string, email string, password string) (User, error) {
 	if err := validators.ValidateRequired(password, "Password should have some value"); err != nil {
-		return User{}, err
+		return User{}, exceptions.InvalidPassword{ErrMessage: err.Error()}
 	}
 	if err := validators.ValidateRequired(firstName, "FirstName should have some value"); err != nil {
 		return User{}, err
@@ -34,7 +35,7 @@ func (user *User) CreateUser(firstName string, lastName string, email string, pa
 		return User{}, err
 	}
 	if err := validators.ValidateEmail(email, "invalid email"); err != nil {
-		return User{}, err
+		return User{}, exceptions.InvalidEmail{ErrMessage: err.Error()}
 	}
 
 	return User{

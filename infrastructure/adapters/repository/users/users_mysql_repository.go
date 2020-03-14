@@ -1,4 +1,4 @@
-package repository
+package users
 
 import (
 	"errors"
@@ -30,9 +30,10 @@ func (userMysqlRepository *UserMysqlRepository) Save(user *model.User) error {
 
 func (userMysqlRepository *UserMysqlRepository) Get(userId int64) (model.User, error) {
 	var userDb models.UserDb
-	if userMysqlRepository.Db.First(&userDb, userId).RecordNotFound() {
+	if userMysqlRepository.Db.First(&userDb, userId).Error != nil {
 		return model.User{}, errors.New(fmt.Sprintf("user not found %v", userId))
 	}
+	fmt.Println(userDb)
 	user := users_mapper.UserDbToUser(userDb)
 	return user, nil
 }

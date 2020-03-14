@@ -36,9 +36,9 @@ func (h *Handler) Create(c *gin.Context) {
 		return
 	}
 	result, createUserErr := h.CreatesUseCase.Handler(userCommand)
+
 	if createUserErr != nil {
-		restErr := rest_errors.NewBadRequestError(createUserErr.Error())
-		c.JSON(restErr.Status(), restErr)
+		_ = c.Error(createUserErr)
 		return
 	}
 	isPublic := c.GetHeader("X-Public") == "true"
