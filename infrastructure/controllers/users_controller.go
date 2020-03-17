@@ -54,8 +54,7 @@ func (h *Handler) Get(c *gin.Context) {
 	}
 	user, errGet := h.GetUserUseCase.Handler(userId)
 	if errGet != nil {
-		restErr := rest_errors.NewBadRequestError(errGet.Error())
-		c.JSON(restErr.Status(), restErr)
+		_ = c.Error(errGet)
 		return
 	}
 

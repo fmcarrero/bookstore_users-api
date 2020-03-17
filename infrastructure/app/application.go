@@ -4,6 +4,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/application/usescases"
 	"github.com/fmcarrero/bookstore_users-api/domain/ports"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/users"
+	"github.com/fmcarrero/bookstore_users-api/infrastructure/app/middlewares/error_handler"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/controllers"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/database_client"
 	"github.com/fmcarrero/bookstore_utils-go/logger"
@@ -18,7 +19,7 @@ var (
 func StartApplication() {
 
 	_ = godotenv.Load()
-	router.Use(ErrorHandler())
+	router.Use(error_handler.ErrorHandler())
 	userRepository := getUsersRepository()
 	var handler = createHandler(userRepository)
 	mapUrls(handler)

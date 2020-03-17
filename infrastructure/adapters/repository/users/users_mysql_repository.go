@@ -3,6 +3,7 @@ package users
 import (
 	"errors"
 	"fmt"
+	"github.com/fmcarrero/bookstore_users-api/domain/exceptions"
 	"github.com/fmcarrero/bookstore_users-api/domain/model"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/mappers/users_mapper"
@@ -31,7 +32,7 @@ func (userMysqlRepository *UserMysqlRepository) Save(user *model.User) error {
 func (userMysqlRepository *UserMysqlRepository) Get(userId int64) (model.User, error) {
 	var userDb models.UserDb
 	if userMysqlRepository.Db.First(&userDb, userId).Error != nil {
-		return model.User{}, errors.New(fmt.Sprintf("user not found %v", userId))
+		return model.User{}, exceptions.UserNotFound{ErrMessage: fmt.Sprintf("user with id=%d not found", userId)}
 	}
 	user := users_mapper.UserDbToUser(userDb)
 	return user, nil

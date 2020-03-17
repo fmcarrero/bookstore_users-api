@@ -1,4 +1,4 @@
-package app
+package error_handler
 
 import (
 	"github.com/fmcarrero/bookstore_users-api/domain/exceptions"
@@ -19,6 +19,13 @@ func ErrorHandler() gin.HandlerFunc {
 		// Use reflect.TypeOf(err.Err) to known the type of your error
 		if _, ok := errors.Cause(err.Err).(exceptions.Validator); ok {
 			restErr := rest_errors.NewBadRequestError(err.Error())
+			logger.Error(restErr.Message(), restErr)
+			c.JSON(restErr.Status(), restErr)
+			return
+		}
+		// Use reflect.TypeOf(err.Err) to known the type of your error
+		if _, ok := errors.Cause(err.Err).(exceptions.UserNotFound); ok {
+			restErr := rest_errors.NewNotFoundError(err.Error())
 			logger.Error(restErr.Message(), restErr)
 			c.JSON(restErr.Status(), restErr)
 			return
