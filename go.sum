@@ -27,8 +27,8 @@ github.com/docker/go-units v0.3.3 h1:Xk8S3Xj5sLGlG5g67hJmYMmUgXv5N4PhkjJHHqrwnTk
 github.com/docker/go-units v0.3.3/go.mod h1:fgPhTUdO+D/Jk86RDLlptpiXQzgHJF7gydDDbaIK4Dk=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 h1:Yzb9+7DPaBjB8zlTR87/ElzFsnQfuHnVUVqpZZIcV5Y=
 github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a2zkGnVExMxdzMo3M0Hi/3sEU+cWnZpSni0O6/Yb/P0=
-github.com/fmcarrero/bookstore_oauth-go v0.0.0-20200312151403-7528d73c9ad2 h1:XW9TR1cIU/oh9pP+MFN2LkwaDXgzXhD+0AV/LLjxy3Q=
-github.com/fmcarrero/bookstore_oauth-go v0.0.0-20200312151403-7528d73c9ad2/go.mod h1:TE2WCAfPdghg4Htw4Lpt+j0oo5EDS5bRccg/HhBqUNY=
+github.com/fmcarrero/bookstore_oauth-go v0.0.2 h1:9VetmABoMLtNpZJfgQK94nK5bN7lEEku1pzzJRRX9Gg=
+github.com/fmcarrero/bookstore_oauth-go v0.0.2/go.mod h1:4L+y+ueITfuv+DD/r8qIePorZrI7i2/menIXixQbdg4=
 github.com/fmcarrero/bookstore_utils-go v0.0.0-20200312163057-dc81d1caa362 h1:UoJ1NTdkQw3zIpw9QaW598tkVclaJfw1O5zKXIUvT00=
 github.com/fmcarrero/bookstore_utils-go v0.0.0-20200312163057-dc81d1caa362/go.mod h1:k+95vcglMXPPqwbfe62w03a+LQMTsHg2MjVmYdNXlD8=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=

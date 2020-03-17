@@ -63,7 +63,6 @@ func TestUserMysqlRepository_Save(t *testing.T) {
 	defer tx.Rollback()
 	var user model.User
 	user, _ = user.CreateUser("Franklin", "Carrero", "mauriciocarrero15@gmail.com", "sistemas31")
-
 	err := userMysqlRepository.Save(&user)
 
 	assert.Nil(t, err)

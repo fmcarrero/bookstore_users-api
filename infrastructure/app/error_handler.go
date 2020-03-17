@@ -26,6 +26,5 @@ func ErrorHandler() gin.HandlerFunc {
 		restErr := rest_errors.NewInternalServerError(err.Error(), err)
 		logger.Error(restErr.Message(), restErr)
 		c.JSON(restErr.Status(), restErr)
-
 	}
 }

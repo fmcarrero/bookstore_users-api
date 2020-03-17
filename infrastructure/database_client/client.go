@@ -5,7 +5,6 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/adapters/repository/models"
 	"github.com/fmcarrero/bookstore_utils-go/logger"
 	"github.com/jinzhu/gorm"
-	"github.com/joho/godotenv"
 	"os"
 	"strconv"
 )
@@ -19,7 +18,7 @@ const (
 )
 
 func GetDatabaseInstance() *gorm.DB {
-	_ = godotenv.Load()
+
 	userName := os.Getenv(MysqlUsersUsername)
 	password := os.Getenv(MysqlUsersPassword)
 	host := os.Getenv(MysqlUsersHost)

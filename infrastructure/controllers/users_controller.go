@@ -45,10 +45,6 @@ func (h *Handler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, marshallers.Marshall(isPublic, result))
 }
 func (h *Handler) Get(c *gin.Context) {
-	if err := oauth.AuthenticateRequest(c.Request); err != nil {
-		c.JSON(http.StatusBadRequest, err.Error())
-		return
-	}
 
 	userId, userErr := strconv.ParseInt(c.Param("user_id"), 10, 64)
 	if userErr != nil {
