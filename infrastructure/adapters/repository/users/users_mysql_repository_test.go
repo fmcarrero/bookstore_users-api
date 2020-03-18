@@ -8,6 +8,7 @@ import (
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/database_client"
 	"github.com/fmcarrero/bookstore_users-api/infrastructure/mappers/users_mapper"
 	"github.com/stretchr/testify/assert"
+	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 	"os"
 	"testing"
