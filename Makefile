@@ -6,6 +6,8 @@ DOCKER_IMAGE_NAME=franklincarrero/bookstore_users-api
 
 check: test lint vet ## Runs all tests
 
+build:
+	go build -v ./...
 test: ## Run the unit tests
 	go test -cover -race -v ./...
 
@@ -19,7 +21,10 @@ clean: ## Clean up build artifacts
 	go clean -cache -modcache -i -r
 
 docker-build: ## Build Docker image
-	docker build -t ${DOCKER_IMAGE_NAME} .
+	docker build --no-cache -t ${DOCKER_IMAGE_NAME} .
+
+docker-build-no-cache: ## Build Docker image
+	docker build  -t ${DOCKER_IMAGE_NAME} .
 
 docker-push: ## Push Docker image to registry
 	docker push ${DOCKER_IMAGE_NAME}

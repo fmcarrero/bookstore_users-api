@@ -1,32 +1,27 @@
 # build stage
 FROM golang as builder
 
-# Configure the repo url so we can configure our work directory:
-ENV REPO_URL=github.com/fmcarrero/bookstore_users-api
-
-# Setup out $GOPATH
-ENV GOPATH=/app
-
 ENV GO111MODULE=on
 
-ENV APP_PATH=$GOPATH/src/$REPO_URL
+WORKDIR /go/src/github.com/fmcarrero/bookstore_users-api/
 
-# Copy the entire source code from the current directory to $WORKPATH
-ENV WORKPATH=$APP_PATH/src
 
-COPY go.mod $WORKPATH
-COPY go.sum $WORKPATH
-COPY src $WORKPATH
-
-WORKDIR $WORKPATH
-
+COPY go.mod .
+COPY go.sum .
 
 RUN go mod download
 
-RUN go build -o users-api .
+COPY . .
 
-# final stages
+
+RUN  CGO_ENABLED=0 go build  -o users_api
+
+# final stage
 FROM alpine:3.7
 
-COPY --from=builder $APP_PATH/users-api .
-ENTRYPOINT ["./users-api"]
+COPY --from=builder /go/src/github.com/fmcarrero/bookstore_users-api/users_api .
+
+# Expose port 8081 to the world:
+EXPOSE 8081
+
+CMD ["./users_api"]

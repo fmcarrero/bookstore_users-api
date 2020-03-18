@@ -1,4 +1,7 @@
 .editorconfig
+.env
+.env.example
+.github
 .git
 AUTHORS.md
 CONTRIBUTING.md
