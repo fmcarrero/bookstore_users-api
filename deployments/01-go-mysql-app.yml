@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service                    # Type of deployments resource
+metadata:
+  name: go-mysql-app-service     # Unique name of the resource
+spec:
+  type: NodePort                 # Expose the Pods by opening a port on each Node and proxying it to the service.
+  ports:                         # Take incoming HTTP requests on port 9090 and forward them to the targetPort of 8080
+    - name: http
+      port: 9090
+      targetPort: 8081
+  selector:
+    app: go-mysql-app            # Map any pod with label `app=go-mysql-app` to this service
+---
+apiVersion: apps/v1
+kind: Deployment                 # Type of Kubernetes resource
+metadata:
+  name: go-mysql-app             # Unique name of the Kubernetes resource
+spec:
+  replicas: 3                    # Number of pods to run at any given time
+  selector:
+    matchLabels:
+      app: go-mysql-app          # This deployment applies to any Pods matching the specified label
+  template:                      # This deployment will create a set of pods using the configurations in this template
+    metadata:
+      labels:                    # The labels that will be applied to all of the pods in this deployment
+        app: go-mysql-app
+    spec:
+      containers:
+        - name: bookstore-users-api
+          image: franklincarrero/bookstore_users-api:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8081  # Should match the port number that the Go application listens on
+          env:                     # Environment variables passed to the container
+            - name: MYSQL_USERS_USERNAME
+              value: "root"
+            - name: MYSQL_USERS_PASSWORD
+              value: "secret"
+            - name: MYSQL_USERS_HOST
+              value: mysql
+            - name: MYSQL_USERS_SCHEMA
+              value: "users_db"
+            - name: MYSQL_USERS_PORT
+              value: "3306"
+            - name: PORT_OAUTH_SERVICE
+              value: "8080"
+            - name: HOST_OAUTH_SERVICE
+              value: "localhost4"
+---
